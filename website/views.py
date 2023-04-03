@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
-from Logging.Logger_Base import log
 from django.contrib.auth import authenticate, login, logout
+from DjangoEmail.settings import EMAIL_HOST_USER
 from django.contrib import messages
+from Logging.Logger_Base import log
 from .forms import SignUpForm, EmailForm
 
 
@@ -38,19 +39,18 @@ def mail(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             if form.is_valid():
-                form.save()
                 subject = request.POST['subject']
                 message = request.POST['message']
-                from_email = request.user.email
-                to_email = [request.POST['email_to']]
+                from_email = EMAIL_HOST_USER
+                to_email = [request.POST['email'], ]
                 # send an email
                 send_mail(
-                    subject,  # subject
-                    message,  # message
-                    from_email,  # from email
-                    to_email,  # to email
+                    subject=subject,  # subject
+                    message=message,  # message
+                    from_email=from_email,  # from email
+                    recipient_list=to_email,  # to email
                 )
-
+                form.save()
                 messages.success(request, 'Email Succesfully sent')
                 return redirect('home')
         else:

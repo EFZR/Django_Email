@@ -60,9 +60,9 @@ class EmailForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EmailForm, self).__init__(*args, **kwargs)
 
-        self.fields['email_to'].widget.attrs['class'] = 'form-control'
-        self.fields['email_to'].widget.attrs['placeholder'] = 'Email to'
-        self.fields['email_to'].label = ''
+        self.fields['email'].widget.attrs['class'] = 'form-control'
+        self.fields['email'].widget.attrs['placeholder'] = 'Email'
+        self.fields['email'].label = ''
 
         self.fields['subject'].widget.attrs['class'] = 'form-control'
         self.fields['subject'].widget.attrs['placeholder'] = 'Enter Subject'
@@ -77,5 +77,5 @@ class EmailForm(forms.ModelForm):
         fields = (
             'subject',
             'message',
-            'email_to',
+            'email',
         )
